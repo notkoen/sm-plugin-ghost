@@ -24,7 +24,7 @@ public Plugin myinfo =
     name = "Ghost",
     author = "koen",
     description = "Gives player noclip and makes them impervious to triggers",
-    version = "0.1.1",
+    version = "0.1.2",
 };
 
 public void OnPluginStart()
@@ -56,7 +56,7 @@ public void OnRoundStart(Handle event, const char[] name, bool dontBroadcast)
 {
     for (int client = 1; client <= MaxClients; client++)
     {
-        if (IsFakeClient(client) || !IsPlayerAlive(client))
+        if (!IsClientConnected(client) || !IsClientInGame(client) || IsFakeClient(client) || !IsPlayerAlive(client))
             continue;
 
         g_playerData[client].Reset();
