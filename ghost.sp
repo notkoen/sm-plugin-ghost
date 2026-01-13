@@ -24,7 +24,7 @@ public Plugin myinfo =
     name = "Ghost",
     author = "koen",
     description = "Gives player noclip and makes them impervious to triggers",
-    version = "0.1.2",
+    version = "",
 };
 
 public void OnPluginStart()
@@ -57,7 +57,9 @@ public void OnRoundStart(Handle event, const char[] name, bool dontBroadcast)
     for (int client = 1; client <= MaxClients; client++)
     {
         if (!IsClientConnected(client) || !IsClientInGame(client) || IsFakeClient(client) || !IsPlayerAlive(client))
+        {
             continue;
+        }
 
         g_playerData[client].Reset();
         SetEntityMoveType(client, MOVETYPE_WALK);
@@ -79,10 +81,14 @@ public void OnEntityCreated(int iEntity, const char[] szClassname)
 public Action OnEntityTrigger(int iEntity, int client)
 {
     if (!(client > 0 && client <= MaxClients) || IsFakeClient(client) || !IsPlayerAlive(client))
+    {
         return Plugin_Continue;
+    }
 
     if (!g_playerData[client].bGhost)
+    {
         return Plugin_Continue;
+    }
 
     if ((g_playerData[client].flTime + 4.0) < GetGameTime())
     {
